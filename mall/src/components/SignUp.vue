@@ -20,64 +20,65 @@
   </el-row>
 </template>
 <script>
-  export default {
-    data() {
-      var checkUsername = (rule, value, callback) => {
-        if (value === '') {
-          return callback(new Error('用户名不能为空'));
-        }
-        setTimeout(async () => {
-          var flag = true
-          await this.$http.post('/check', {username: this.ruleForm.username}).then(result => {
-            flag = result.data
-          })
-          if (flag == false) {
-            return callback(new Error('用户名已存在'))
-          } else {
-            return callback()
-          }
-        }, 1000);
-      };
-      var checkPassword = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('密码不能为空'));
+export default {
+  data() {
+    var checkUsername = (rule, value, callback) => {
+      if (value === "") {
+        return callback(new Error("用户名不能为空"));
+      }
+      setTimeout(async () => {
+        var flag = true;
+        await this.$http
+          .post("/check", { username: this.ruleForm.username })
+          .then(result => {
+            flag = result.data;
+          });
+        if (flag == false) {
+          return callback(new Error("用户名已存在"));
         } else {
-          callback();
+          return callback();
         }
-      };
-      return {
-        ruleForm: {
-          username: '',
-          password: '',
-        },
-        rules: {
-          username: [
-            {validator: checkUsername, trigger: 'blur'}
-          ],
-          password: [
-            {validator: checkPassword, trigger: 'blur'}
-          ]
-        }
-      };
-    },
-    methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$http.post('/addUser', {
+      }, 1000);
+    };
+    var checkPassword = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("密码不能为空"));
+      } else {
+        callback();
+      }
+    };
+    return {
+      ruleForm: {
+        username: "",
+        password: ""
+      },
+      rules: {
+        username: [{ validator: checkUsername, trigger: "blur" }],
+        password: [{ validator: checkPassword, trigger: "blur" }]
+      }
+    };
+  },
+  methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$http
+            .post("/addUser", {
               username: this.ruleForm.username,
               password: this.ruleForm.password
-            }).then(result => {
-              this.$router.push('/')
             })
-          } else {
-            return false;
-          }
-        });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields()
-      }
+            .then(result => {
+              this.$store.state.user = result.data;
+              this.$router.push("/");
+            });
+        } else {
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
   }
+};
 </script>

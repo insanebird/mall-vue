@@ -10,34 +10,31 @@
       >
         <el-submenu index="1">
           <template slot="title">
-            <i class="el-icon-goods"></i>
-            <span>商品管理</span>
+            <i class="el-icon-user-solid"></i>
+            <span>基本信息管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="/admin/allProduct">所有商品</el-menu-item>
-            <el-menu-item index="/admin/category">商品分类</el-menu-item>
-            <el-menu-item index="/admin/addCategory">添加分类</el-menu-item>
-            <el-menu-item index="/admin/images">轮播图管理</el-menu-item>
-            <el-menu-item index="/admin/adImage">广告图片</el-menu-item>
+            <el-menu-item index="/myShop/retailerInformation">店铺基本信息</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">
-            <i class="el-icon-office-building"></i>
-            <span>商家管理</span>
+            <i class="el-icon-notebook-1"></i>
+            <span>订单管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="/admin/retailerList">所有商家</el-menu-item>
+            <el-menu-item index="/myShop/todayOrder">今日交易</el-menu-item>
+            <el-menu-item index="/myShop/retailerOrder">交易趋势</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="3">
           <template slot="title">
-            <i class="el-icon-s-custom"></i>
-            <span>用户管理</span>
+            <i class="el-icon-house"></i>
+            <span>商品管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="/admin/userList">所有用户</el-menu-item>
-            <el-menu-item index="/admin/VIPList">所有会员</el-menu-item>
+            <el-menu-item index="/myShop/addProduct">添加商品</el-menu-item>
+            <el-menu-item index="/myShop/retailerProduct">所有商品</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-menu-item index="/" class="el-icon-back">返回首页</el-menu-item>

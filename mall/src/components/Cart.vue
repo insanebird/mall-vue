@@ -3,7 +3,7 @@
     <el-table :data="products" height="500">
       <el-table-column prop="sku.skuImage">
         <template slot-scope="scope">
-          <img :src="scope.row.sku.skuImage" width="100px;" alt=""/>
+          <img :src="scope.row.sku.skuImage" width="100px;" alt />
         </template>
       </el-table-column>
       <el-table-column prop="sku.skuName"></el-table-column>
@@ -21,39 +21,46 @@
   </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        products: [],
-        sum: 0
+export default {
+  data() {
+    return {
+      products: [],
+      sum: 0
+    };
+  },
+  created() {
+    this.$http.get("/getCartList").then(result => {
+      this.products = result.data;
+      for (let i = 0; i < this.products.length; ++i) {
+        this.sum += this.products[i].num * this.products[i].sku.skuPrice;
+      }
+    });
+  },
+  methods: {
+    getSum: function(currentValue, oldValue) {
+      this.sum = 0;
+      for (let i = 0; i < this.products.length; ++i) {
+        this.sum += this.products[i].num * this.products[i].sku.skuPrice;
       }
     },
-    created() {
-      this.$http.get('/getCartList').then(result => {
-        this.products = result.data
-        for (let i = 0; i < this.products.length; ++i) {
-          this.sum += this.products[i].num * this.products[i].sku.skuPrice
+    generateOrder: function() {
+      let res = "";
+      for (let i = 0; i < this.products.length; ++i) {
+        if (this.products[i].num > 0) {
+          res +=
+            this.products[i].sku.skuId +
+            "_" +
+            this.products[i].num +
+            "_" +
+            this.products[i].sku.retailerId +
+            "#";
         }
-      })
-    },
-    methods: {
-      getSum: function (currentValue, oldValue) {
-        this.sum = 0
-        for (let i = 0; i < this.products.length; ++i) {
-          this.sum += this.products[i].num * this.products[i].sku.skuPrice
-        }
-      },
-      generateOrder: function () {
-        let res = ''
-        for (let i = 0; i < this.products.length; ++i) {
-          if (this.products[i].num > 0) {
-            res += this.products[i].sku.skuId + '_' + this.products[i].num + '_' + this.products[i].sku.retailerId + '#'
-          }
-        }
-        this.$http.post('/generateOrder', {skuItem: res}).then(result => {
-          this.$router.push('/orderList')
-        })
       }
+      this.$http.post("/generateOrder", { skuItem: res }).then(result => {
+        this.$router.push("/orderList");
+        this.$store.state.cartNum = 0;
+      });
     }
   }
+};
 </script>

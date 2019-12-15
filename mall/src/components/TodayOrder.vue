@@ -1,7 +1,7 @@
 <template>
   <el-row type="flex" justify="center">
-    <el-col>
-      <el-table :data="orders" height="500">
+    <el-col :span="16">
+      <el-table :data="orders" height="500" show-summary>
         <el-table-column type="expand" label="商品详情">
           <template slot-scope="scope">
             <el-table :data="scope.row.cartList">
@@ -14,21 +14,11 @@
               <el-table-column prop="sku.skuSpecification" label="商品规格"></el-table-column>
               <el-table-column prop="sku.skuPrice" label="商品价格"></el-table-column>
               <el-table-column prop="num" label="商品数量"></el-table-column>
-              <el-table-column label="评分">
-                <template slot-scope="scope">
-                  <el-rate v-model="rate"></el-rate>
-                </template>
-              </el-table-column>
-              <el-table-column label="评论">
-                <template slot-scope="scope">
-                  <el-input v-model="comment" placeholder="请输入内容" style="width:150px;" size="mini"></el-input>
-                  <el-button type="primary" @click="addComment(scope.row)" size="mini">提交</el-button>
-                </template>
-              </el-table-column>
             </el-table>
           </template>
         </el-table-column>
         <el-table-column prop="retailer.name" label="商家"></el-table-column>
+        <el-table-column prop="user.username" label="用户"></el-table-column>
         <el-table-column prop="displayDate" label="日期"></el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
@@ -52,32 +42,15 @@
 export default {
   data() {
     return {
-      orders: [],
-      comment: "",
-      rate: 5
+      orders: []
     };
   },
   created() {
     this.$http
-      .post("/getOrderList", { id: this.$store.state.user.id })
+      .post("/getTodayOrder", { id: this.$store.state.retailer.id })
       .then(result => {
         this.orders = result.data;
       });
-  },
-  methods: {
-    addComment: function(obj) {
-      this.$http
-        .post("/addSKUComment", {
-          content: this.comment,
-          rate: this.rate,
-          userId: this.$store.state.user.id,
-          skuId: obj.skuId,
-          retailerId: obj.retailerId
-        })
-        .then(result => {
-          this.$message("评论成功");
-        });
-    }
   }
 };
 </script>

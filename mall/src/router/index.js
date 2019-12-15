@@ -10,7 +10,22 @@ import OrderList from '../components/OrderList'
 import Admin from '../components/Admin'
 import AllProduct from '../components/AllProduct'
 import Category from '../components/Category'
-import AddProduct from "../components/AddProduct";
+import AddProduct from "../components/AddProduct"
+import AllOrder from "../components/AllOrder"
+import TodayOrder from "../components/TodayOrder";
+import RetailerList from "../components/RetailerList";
+import BecomeRetailer from "../components/BecomeRetailer";
+import MyShop from '../components/MyShop'
+import RetailerOrder from '../components/RetailerOrder'
+import RetailerProduct from '../components/RetailerProduct'
+import Forum from '../components/Forum'
+import TopicDetail from '../components/TopicDetail'
+import AddCategory from '../components/AddCategory'
+import UserList from '../components/UserList'
+import VIPList from '../components/VIPList'
+import SearchProduct from '../components/SearchProduct'
+import RetailerInformation from '../components/retailerInformation'
+import Images from '../components/Images'
 
 Vue.use(Router)
 
@@ -75,8 +90,98 @@ export default new Router({
           path: 'addProduct',
           name: 'addProduct',
           component: AddProduct
+        }, {
+          path: 'allOrder',
+          name: 'allOrder',
+          component: AllOrder
+        }, {
+          path: 'todayOrder',
+          name: 'todayOrder',
+          component: TodayOrder
+        }, {
+          path: 'retailerList',
+          name: 'retailerList',
+          component: RetailerList
+        }, {
+          path: 'addCategory',
+          name: 'addCategory',
+          component: AddCategory
+        }, {
+          path: 'userList',
+          name: 'userList',
+          component: UserList
+        }, {
+          path: 'VIPList',
+          name: 'VIPList',
+          component: VIPList
+        }, {
+          path: 'images',
+          name: 'image',
+          component: Images
         }
       ]
+    }, {
+      path: '/becomeRetailer',
+      name: 'becomeRetailer',
+      components: {
+        header: Header,
+        main: BecomeRetailer
+      }
+    }, {
+      path: '/myShop',
+      name: 'myShop',
+      components: {
+        header: MyShop
+      },
+      children: [
+        {
+          path: 'retailerInformation',
+          name: 'retailerInformation',
+          component: RetailerInformation
+        }, {
+          path: 'todayOrder',
+          name: 'todayOrder',
+          component: TodayOrder
+        }, {
+          path: 'retailerOrder',
+          name: 'retailerOrder',
+          component: RetailerOrder
+        }, {
+          path: 'addProduct',
+          name: 'addProduct',
+          component: AddProduct
+        }, {
+          path: 'retailerProduct',
+          name: 'retailerProduct',
+          component: RetailerProduct
+        }
+      ]
+    },
+    {
+      path: '/forum',
+      name: 'forum',
+      components: {
+        header: Forum
+      }
+    }, {
+      path: '/topicDetail/:id',
+      name: 'topicDetail',
+      components: {
+        header: TopicDetail
+      }
+    }, {
+      path: '/searchProduct',
+      name: 'searchProduct',
+      components: {
+        header: Header,
+        main: SearchProduct
+      }
+    }, {
+      path: '/retailerInformation',
+      name: 'retailerInformation',
+      components: {
+        header: RetailerInformation
+      }
     }
   ]
 })
